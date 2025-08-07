@@ -89,10 +89,24 @@
         <header class="header sticky top-0 z-40">
             <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-slate-800 cursor-pointer" id="home-button">Shift<span class="text-amber-500">Link</span></h1>
-                <div id="user-info" class="hidden items-center space-x-4">
-                     <button id="refer-job-button" class="font-semibold text-slate-600 hover:text-amber-500">Refer a Job</button>
+                
+                <!-- Main Navigation (shown on dashboard views) -->
+                <div id="main-nav" class="hidden items-center space-x-4">
+                    <button id="profile-button" class="font-semibold text-slate-600 hover:text-amber-500">My Profile</button>
+                    <button id="refer-job-button" class="font-semibold text-slate-600 hover:text-amber-500">Refer a Job</button>
                     <span id="user-role-display" class="font-semibold text-slate-600 capitalize"></span>
                     <button id="logout-button" class="text-sm text-slate-500 hover:text-amber-500">Logout</button>
+                </div>
+
+                <!-- Profile/Back Navigation (shown on profile view) -->
+                <div id="profile-nav" class="hidden items-center space-x-4">
+                    <button id="back-button" class="font-semibold text-slate-600 hover:text-amber-500 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back
+                    </button>
+                    <button id="logout-button-profile" class="text-sm text-slate-500 hover:text-amber-500">Logout</button>
                 </div>
             </nav>
         </header>
@@ -126,6 +140,23 @@
                  <div class="mt-12">
                      <button id="select-referrer-button" class="font-semibold text-slate-600 hover:text-amber-500">Or, refer a job and earn rewards →</button>
                  </div>
+                 
+                <!-- Manifesto Section -->
+                <div class="my-16 md:my-20 border-t border-b border-slate-200 bg-white py-12">
+                    <div class="container mx-auto px-6 text-center max-w-4xl">
+                        <h3 class="text-3xl font-bold text-slate-800">A Platform Built for the Indian Hustle</h3>
+                        <p class="mt-6 text-lg text-slate-600">
+                            <strong>Why can't India have its own professional network, built for our unique reality?</strong>
+                        </p>
+                        <p class="mt-4 text-slate-500">
+                            Platforms like LinkedIn are designed for established, full-time careers. But that's not the full story of the Indian job market. The real story is in the millions of us who move to a new city, stay in a PG, and need a part-time job <em>right now</em> to pay the bills while we chase our dreams.
+                        </p>
+                         <p class="mt-4 text-slate-500">
+                            That’s why ShiftLink was created. Not as another corporate job board, but as a platform built from the ground up for the Indian hustle. It's a place where a student, a recent graduate, or anyone needing flexible work can instantly connect with local businesses. This is a community network, built by someone who lives the same reality.
+                        </p>
+                    </div>
+                </div>
+                <!-- End Manifesto Section -->
             </div>
         </div>
 
@@ -168,6 +199,14 @@
                 <p class="text-xl text-slate-500">No new job leads have been referred.</p>
             </div>
         </div>
+        
+        <!-- Profile View -->
+        <div id="profile-view" class="hidden container mx-auto px-6 py-12">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">Edit Your Profile</h2>
+            <div id="profile-form-container" class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
+                <!-- Profile form will be injected here by JavaScript -->
+            </div>
+        </div>
 
     </div>
 
@@ -178,11 +217,10 @@
     <script type="module">
         // Firebase SDK imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, arrayUnion, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- App Configuration ---
-        // This configuration connects the web app to your specific Firebase project.
         const firebaseConfig = {
           apiKey: "AIzaSyCAEUjctGPFbs14JqPS2Za1M5pnKo87Wc0",
           authDomain: "shiftlink-5a6be.firebaseapp.com",
@@ -192,7 +230,7 @@
           appId: "1:205455659811:web:9e690d842b604b8336b296"
         };
         const appId = firebaseConfig.appId;
-        const ADMIN_UID = "YOUR_ADMIN_UID_HERE"; // IMPORTANT: Replace with your actual Firebase User ID
+        const ADMIN_UID = "YOUR_ADMIN_UID_HERE"; 
 
         // --- Firebase Initialization ---
         const app = initializeApp(firebaseConfig);
@@ -201,11 +239,15 @@
 
         // --- DOM Elements ---
         const loadingSpinner = document.getElementById('loading-spinner');
+        const mainNav = document.getElementById('main-nav');
+        const profileNav = document.getElementById('profile-nav');
+        
         const roleSelectionView = document.getElementById('role-selection-view');
         const seekerView = document.getElementById('seeker-view');
         const employerView = document.getElementById('employer-view');
         const adminView = document.getElementById('admin-view');
-        const userInfo = document.getElementById('user-info');
+        const profileView = document.getElementById('profile-view');
+        
         const userRoleDisplay = document.getElementById('user-role-display');
         const jobListingsContainer = document.getElementById('job-listings-container');
         const employerJobsContainer = document.getElementById('employer-jobs-container');
@@ -213,11 +255,14 @@
         
         // Buttons
         const homeButton = document.getElementById('home-button');
+        const profileButton = document.getElementById('profile-button');
         const selectSeekerButton = document.getElementById('select-seeker-button');
         const selectEmployerButton = document.getElementById('select-employer-button');
         const selectReferrerButton = document.getElementById('select-referrer-button');
         const logoutButton = document.getElementById('logout-button');
+        const logoutButtonProfile = document.getElementById('logout-button-profile');
         const referJobButton = document.getElementById('refer-job-button');
+        const backButton = document.getElementById('back-button');
         
         // Modals
         const postJobModalContainer = document.getElementById('post-job-modal');
@@ -228,6 +273,7 @@
 
         let currentUser = null;
         let userRole = null;
+        let userData = {};
         let allJobs = [];
         let jobsUnsubscribe = null;
         let employerJobsUnsubscribe = null;
@@ -235,12 +281,24 @@
 
         // --- UI Management ---
         function showView(view) {
-            [loadingSpinner, roleSelectionView, seekerView, employerView, adminView, userInfo].forEach(el => el.style.display = 'none');
-            if (view === 'loading') loadingSpinner.style.display = 'flex';
-            if (view === 'roleSelection') roleSelectionView.style.display = 'block';
-            if (['seeker', 'employer', 'admin'].includes(view)) {
+            [loadingSpinner, roleSelectionView, seekerView, employerView, adminView, profileView].forEach(el => el.style.display = 'none');
+            
+            if (view === 'loading') {
+                loadingSpinner.style.display = 'flex';
+                mainNav.style.display = 'none';
+                profileNav.style.display = 'none';
+            } else if (view === 'roleSelection') {
+                roleSelectionView.style.display = 'block';
+                mainNav.style.display = 'none';
+                profileNav.style.display = 'none';
+            } else if (view === 'profile') {
+                profileView.style.display = 'block';
+                mainNav.style.display = 'none';
+                profileNav.style.display = 'flex';
+            } else {
                 document.getElementById(`${view}-view`).style.display = 'block';
-                userInfo.style.display = 'flex';
+                mainNav.style.display = 'flex';
+                profileNav.style.display = 'none';
             }
         }
 
@@ -248,33 +306,35 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                if (currentUser.uid === ADMIN_UID) {
-                    userRole = 'admin';
-                    userRoleDisplay.textContent = 'Admin';
-                    showView('admin');
-                    listenForReferrals();
-                    return;
-                }
-                
                 const userDocRef = doc(db, `artifacts/${appId}/users/${currentUser.uid}`);
                 const userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists()) {
-                    userRole = userDoc.data().role;
+                    userData = userDoc.data();
+                    userRole = userData.role;
                     userRoleDisplay.textContent = userRole;
-                    if (userRole === 'seeker') {
-                        showView('seeker');
+                    if (userRole === 'seeker') showView('seeker');
+                    else if (userRole === 'employer') showView('employer');
+                    else if (userRole === 'admin') showView('admin');
+                    
+                    if (userRole !== 'admin') {
                         listenForJobs();
-                    } else if (userRole === 'employer') {
-                        showView('employer');
-                        fetchEmployerJobs();
+                        if (userRole === 'employer') fetchEmployerJobs();
+                    } else {
+                        listenForReferrals();
                     }
+
                 } else {
-                    showView('roleSelection');
+                     if (currentUser.uid === ADMIN_UID) {
+                        await setDoc(userDocRef, { role: 'admin' });
+                     } else {
+                        showView('roleSelection');
+                     }
                 }
             } else {
                 currentUser = null;
                 userRole = null;
+                userData = {};
                 [jobsUnsubscribe, employerJobsUnsubscribe, referralsUnsubscribe].forEach(unsub => unsub && unsub());
                 showView('roleSelection');
             }
@@ -284,7 +344,6 @@
             showView('loading');
             try {
                 if (!auth.currentUser) {
-                    // For a live site, we'll always sign in anonymously if not already signed in.
                     await signInAnonymously(auth);
                 }
                 const user = auth.currentUser;
@@ -301,6 +360,7 @@
         selectEmployerButton.addEventListener('click', () => handleRoleSelection('employer'));
         selectReferrerButton.addEventListener('click', () => openReferralModal());
         logoutButton.addEventListener('click', () => signOut(auth));
+        logoutButtonProfile.addEventListener('click', () => signOut(auth));
         homeButton.addEventListener('click', () => {
              if (currentUser && userRole) {
                 showView(userRole);
@@ -308,7 +368,68 @@
                 showView('roleSelection');
              }
         });
+        profileButton.addEventListener('click', () => {
+            showView('profile');
+            renderProfileForm();
+        });
+        backButton.addEventListener('click', () => showView(userRole));
         referJobButton.addEventListener('click', () => openReferralModal());
+
+        // --- Profile Functions ---
+        function renderProfileForm() {
+            const container = document.getElementById('profile-form-container');
+            let formHTML = '';
+            if (userRole === 'seeker') {
+                formHTML = `
+                    <form id="profile-form" class="space-y-4">
+                        <div><label for="profile-bio" class="block text-sm font-medium text-slate-600">Short Bio</label><textarea id="profile-bio" rows="3" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="Tell us a little about yourself...">${userData.bio || ''}</textarea></div>
+                        <div><label for="profile-skills" class="block text-sm font-medium text-slate-600">Key Skills</label><input type="text" id="profile-skills" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="e.g., Customer Service, Data Entry" value="${(userData.skills || []).join(', ')}"></div>
+                        <div class="flex justify-end space-x-4 pt-4">
+                            <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
+                            <button type="submit" class="px-6 py-2 rounded-lg font-semibold cta-button">Save Profile</button>
+                        </div>
+                    </form>
+                `;
+            } else if (userRole === 'employer') {
+                formHTML = `
+                    <form id="profile-form" class="space-y-4">
+                        <div><label for="profile-company-desc" class="block text-sm font-medium text-slate-600">Company Description</label><textarea id="profile-company-desc" rows="3" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="Describe your business...">${userData.companyDescription || ''}</textarea></div>
+                        <div><label for="profile-company-logo" class="block text-sm font-medium text-slate-600">Company Logo URL</label><input type="url" id="profile-company-logo" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="https://example.com/logo.png" value="${userData.companyLogoUrl || ''}"></div>
+                        <div class="flex justify-end space-x-4 pt-4">
+                            <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
+                            <button type="submit" class="px-6 py-2 rounded-lg font-semibold cta-button">Save Profile</button>
+                        </div>
+                    </form>
+                `;
+            }
+            container.innerHTML = formHTML;
+            container.querySelector('#profile-form').addEventListener('submit', handleProfileSave);
+            container.querySelector('#profile-cancel-button').addEventListener('click', () => showView(userRole));
+        }
+
+        async function handleProfileSave(e) {
+            e.preventDefault();
+            const userDocRef = doc(db, `artifacts/${appId}/users/${currentUser.uid}`);
+            let profileData = {};
+
+            if (userRole === 'seeker') {
+                const skills = document.getElementById('profile-skills').value.split(',').map(s => s.trim()).filter(s => s);
+                profileData = {
+                    bio: document.getElementById('profile-bio').value,
+                    skills: skills
+                };
+            } else if (userRole === 'employer') {
+                profileData = {
+                    companyDescription: document.getElementById('profile-company-desc').value,
+                    companyLogoUrl: document.getElementById('profile-company-logo').value
+                };
+            }
+
+            await updateDoc(userDocRef, profileData);
+            alert('Profile saved successfully!');
+            userData = {...userData, ...profileData}; // Update local user data
+            showView(userRole); // Go back to the main view
+        }
 
         // --- Job Functions ---
         function createJobCard(job, isEmployerView = false) {
@@ -501,4 +622,3 @@
     </script>
 </body>
 </html>
-
