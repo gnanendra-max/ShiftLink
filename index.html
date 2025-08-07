@@ -182,8 +182,16 @@
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, arrayUnion, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- App Configuration ---
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "your-fallback-api-key", authDomain: "your-fallback-auth-domain", projectId: "your-fallback-project-id" };
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // This configuration connects the web app to your specific Firebase project.
+        const firebaseConfig = {
+          apiKey: "AIzaSyCAEUjctGPFbs14JqPS2Za1M5pnKo87Wc0",
+          authDomain: "shiftlink-5a6be.firebaseapp.com",
+          projectId: "shiftlink-5a6be",
+          storageBucket: "shiftlink-5a6be.appspot.com",
+          messagingSenderId: "205455659811",
+          appId: "1:205455659811:web:9e690d842b604b8336b296"
+        };
+        const appId = firebaseConfig.appId;
         const ADMIN_UID = "YOUR_ADMIN_UID_HERE"; // IMPORTANT: Replace with your actual Firebase User ID
 
         // --- Firebase Initialization ---
@@ -276,11 +284,8 @@
             showView('loading');
             try {
                 if (!auth.currentUser) {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
+                    // For a live site, we'll always sign in anonymously if not already signed in.
+                    await signInAnonymously(auth);
                 }
                 const user = auth.currentUser;
                 const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}`);
@@ -496,3 +501,4 @@
     </script>
 </body>
 </html>
+
