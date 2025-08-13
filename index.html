@@ -51,13 +51,13 @@
         .secondary-button:hover {
             background-color: #cbd5e1; /* Slate 300 */
         }
-        .job-card, .choice-card, .referral-card {
+        .job-card, .choice-card, .referral-card, .applicant-card, .category-card {
             background-color: #ffffff; /* White */
             border: 1px solid #e2e8f0; /* Slate 200 */
             border-radius: 0.75rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
-        .job-card:hover, .choice-card:hover, .referral-card:hover {
+        .job-card:hover, .choice-card:hover, .referral-card:hover, .applicant-card:hover, .category-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
             border-color: #f59e0b; /* Amber 500 */
@@ -75,6 +75,12 @@
         .hero-gradient {
             background: #f8fafc;
             background: linear-gradient(145deg, #fefce8 0%, #f8fafc 100%);
+        }
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover img {
+            transform: scale(1.05);
         }
         /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar {
@@ -105,15 +111,15 @@
                     <button id="logout-button" class="text-sm text-slate-500 hover:text-amber-500">Logout</button>
                 </div>
 
-                <!-- Profile/Back Navigation (shown on profile view) -->
-                <div id="profile-nav" class="hidden items-center space-x-4">
+                <!-- Secondary Navigation (shown on profile/applicants view) -->
+                <div id="secondary-nav" class="hidden items-center space-x-4">
                     <button id="back-button" class="font-semibold text-slate-600 hover:text-amber-500 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                         Back
                     </button>
-                    <button id="logout-button-profile" class="text-sm text-slate-500 hover:text-amber-500">Logout</button>
+                    <button id="logout-button-secondary" class="text-sm text-slate-500 hover:text-amber-500">Logout</button>
                 </div>
             </nav>
         </header>
@@ -132,14 +138,62 @@
                 <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-500 mb-12">
                    Finding flexible work or reliable part-time talent shouldn't be a struggle. We built ShiftLink to bridge this gap, instantly connecting skilled professionals with great companies for part-time and project-based roles. This is the future of work, simplified.
                 </p>
+                
+                <!-- Dynamic Image Gallery -->
+                <div class="mb-16">
+                    <h3 class="text-2xl font-bold text-slate-700 mb-8">Or, start by exploring a category</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        <!-- Category Card 1: Cafe/Restaurant -->
+                        <div class="category-card cursor-pointer group" data-category="Cafe">
+                            <div class="relative overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2047&auto=format&fit=crop" class="w-full h-48 object-cover" alt="Barista making coffee">
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                                <div class="absolute bottom-0 left-0 p-4">
+                                    <h4 class="text-white text-xl font-bold">Cafe & Restaurant</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Category Card 2: Retail -->
+                        <div class="category-card cursor-pointer group" data-category="Retail">
+                            <div class="relative overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1556742111-a301076d9d18?q=80&w=2070&auto=format&fit=crop" class="w-full h-48 object-cover" alt="Retail assistant helping a customer">
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                                <div class="absolute bottom-0 left-0 p-4">
+                                    <h4 class="text-white text-xl font-bold">Retail</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Category Card 3: Events -->
+                        <div class="category-card cursor-pointer group" data-category="Event">
+                             <div class="relative overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=2070&auto=format&fit=crop" class="w-full h-48 object-cover" alt="Staff at a conference event">
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                                <div class="absolute bottom-0 left-0 p-4">
+                                    <h4 class="text-white text-xl font-bold">Events</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Category Card 4: Office/Data -->
+                        <div class="category-card cursor-pointer group" data-category="Data Entry">
+                            <div class="relative overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop" class="w-full h-48 object-cover" alt="Person doing data entry on a laptop">
+                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                                <div class="absolute bottom-0 left-0 p-4">
+                                    <h4 class="text-white text-xl font-bold">Office & Data</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div id="select-seeker-button" class="choice-card cursor-pointer p-8 rounded-xl text-left">
-                        <h3 class="text-2xl font-bold text-slate-800 mt-4 mb-2">Find a Job</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mt-4 mb-2">I want to find a Job</h3>
                         <p class="text-slate-500">Discover flexible jobs from local businesses and companies.</p>
                         <p class="font-semibold text-amber-600 mt-4">Start Your Search →</p>
                     </div>
                      <div id="select-employer-button" class="choice-card cursor-pointer p-8 rounded-xl text-left">
-                        <h3 class="text-2xl font-bold text-slate-800 mt-4 mb-2">Hire Talent</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mt-4 mb-2">I want to Hire Talent</h3>
                         <p class="text-slate-500">Post a job in minutes and find reliable candidates for your team.</p>
                         <p class="font-semibold text-amber-600 mt-4">Post a Job for Free →</p>
                     </div>
@@ -164,6 +218,67 @@
                     </div>
                 </div>
                 <!-- End Manifesto Section -->
+
+                <!-- NEW: How It Works Section -->
+                <div class="my-16 md:my-20">
+                    <h3 class="text-3xl font-bold text-slate-800 text-center mb-12">How It Works</h3>
+                    <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto text-left">
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h4 class="text-2xl font-bold text-amber-600 mb-4">For Job Seekers</h4>
+                            <ul class="space-y-3 text-slate-600">
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">1.</span> <span><strong>Explore:</strong> Browse real-time job listings or search by category.</span></li>
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">2.</span> <span><strong>Apply:</strong> Complete your profile and apply to any job with a single click.</span></li>
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">3.</span> <span><strong>Connect:</strong> Get contacted directly by local businesses for your next gig.</span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h4 class="text-2xl font-bold text-amber-600 mb-4">For Employers</h4>
+                            <ul class="space-y-3 text-slate-600">
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">1.</span> <span><strong>Post a Job:</strong> Describe your needs in our simple form—it takes less than 2 minutes.</span></li>
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">2.</span> <span><strong>Review Applicants:</strong> See a list of motivated, local candidates who have applied.</span></li>
+                                <li class="flex items-start"><span class="font-bold text-amber-500 mr-3 mt-1">3.</span> <span><strong>Hire Talent:</strong> Connect with the best applicants and fill your shifts quickly.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End How It Works Section -->
+
+                <!-- NEW: Testimonials Section -->
+                <div class="my-16 md:my-20">
+                     <h3 class="text-3xl font-bold text-slate-800 text-center mb-12">What People Are Saying</h3>
+                     <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        <div class="bg-white p-8 rounded-lg shadow-md text-left">
+                            <p class="text-slate-600 italic">"ShiftLink helped me find a weekend barista job in just two days. It was so much easier than searching on other sites!"</p>
+                            <p class="mt-4 font-bold text-slate-700">- Priya K., Student in Koramangala</p>
+                        </div>
+                         <div class="bg-white p-8 rounded-lg shadow-md text-left">
+                            <p class="text-slate-600 italic">"We needed staff for a last-minute event, and we found two reliable people through ShiftLink within hours. This platform is a lifesaver for our business."</p>
+                            <p class="mt-4 font-bold text-slate-700">- Rohan S., Event Manager</p>
+                        </div>
+                     </div>
+                </div>
+                <!-- End Testimonials Section -->
+
+                <!-- NEW: FAQ Section -->
+                <div class="my-16 md:my-20 max-w-4xl mx-auto">
+                    <h3 class="text-3xl font-bold text-slate-800 text-center mb-12">Frequently Asked Questions</h3>
+                    <div class="space-y-4 text-left">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-lg text-slate-800">Is ShiftLink free to use?</h4>
+                            <p class="mt-2 text-slate-600">Yes, ShiftLink is currently 100% free for both job seekers and employers. Our mission is to build the community first.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-lg text-slate-800">What kind of jobs are on the platform?</h4>
+                            <p class="mt-2 text-slate-600">You'll find a wide range of part-time, flexible, and one-time gigs from local businesses, including roles in cafes, retail, events, data entry, and more.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-lg text-slate-800">How do I get paid?</h4>
+                            <p class="mt-2 text-slate-600">ShiftLink is a platform that connects you with employers. All payment details and arrangements are handled directly between you and the business that hires you.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End FAQ Section -->
+
             </div>
         </div>
 
@@ -197,6 +312,15 @@
                 <p class="text-xl text-slate-500">You haven't posted any jobs yet.</p>
             </div>
         </div>
+        
+        <!-- Applicants View -->
+        <div id="applicants-view" class="hidden container mx-auto px-6 py-12">
+            <h2 id="applicants-title" class="text-3xl font-bold text-slate-800 mb-8">Applicants</h2>
+            <div id="applicants-container" class="space-y-4"></div>
+            <div id="no-applicants-message" class="hidden text-center py-16 bg-white rounded-lg">
+                <p class="text-xl text-slate-500">No one has applied to this job yet.</p>
+            </div>
+        </div>
 
         <!-- Admin View -->
         <div id="admin-view" class="hidden container mx-auto px-6 py-12">
@@ -225,7 +349,7 @@
         // Firebase SDK imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, arrayUnion, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, onSnapshot, updateDoc, arrayUnion, deleteDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- App Configuration ---
         const firebaseConfig = {
@@ -247,18 +371,21 @@
         // --- DOM Elements ---
         const loadingSpinner = document.getElementById('loading-spinner');
         const mainNav = document.getElementById('main-nav');
-        const profileNav = document.getElementById('profile-nav');
+        const secondaryNav = document.getElementById('secondary-nav');
         
         const roleSelectionView = document.getElementById('role-selection-view');
         const seekerView = document.getElementById('seeker-view');
         const employerView = document.getElementById('employer-view');
         const adminView = document.getElementById('admin-view');
         const profileView = document.getElementById('profile-view');
+        const applicantsView = document.getElementById('applicants-view');
         
         const userRoleDisplay = document.getElementById('user-role-display');
         const jobListingsContainer = document.getElementById('job-listings-container');
         const employerJobsContainer = document.getElementById('employer-jobs-container');
         const referralListingsContainer = document.getElementById('referral-listings-container');
+        const applicantsContainer = document.getElementById('applicants-container');
+        const applicantsTitle = document.getElementById('applicants-title');
         
         // Buttons
         const homeButton = document.getElementById('home-button');
@@ -267,7 +394,7 @@
         const selectEmployerButton = document.getElementById('select-employer-button');
         const selectReferrerButton = document.getElementById('select-referrer-button');
         const logoutButton = document.getElementById('logout-button');
-        const logoutButtonProfile = document.getElementById('logout-button-profile');
+        const logoutButtonSecondary = document.getElementById('logout-button-secondary');
         const referJobButton = document.getElementById('refer-job-button');
         const backButton = document.getElementById('back-button');
         
@@ -285,77 +412,104 @@
         let jobsUnsubscribe = null;
         let employerJobsUnsubscribe = null;
         let referralsUnsubscribe = null;
+        let previousView = null;
 
         // --- UI Management ---
-        function showView(view) {
-            [loadingSpinner, roleSelectionView, seekerView, employerView, adminView, profileView].forEach(el => el.style.display = 'none');
+        function showView(view, fromView = null) {
+            if (fromView) previousView = fromView;
+
+            [loadingSpinner, roleSelectionView, seekerView, employerView, adminView, profileView, applicantsView].forEach(el => el.style.display = 'none');
             
             if (view === 'loading') {
                 loadingSpinner.style.display = 'flex';
                 mainNav.style.display = 'none';
-                profileNav.style.display = 'none';
+                secondaryNav.style.display = 'none';
             } else if (view === 'roleSelection') {
                 roleSelectionView.style.display = 'block';
                 mainNav.style.display = 'none';
-                profileNav.style.display = 'none';
-            } else if (view === 'profile') {
-                profileView.style.display = 'block';
+                secondaryNav.style.display = 'none';
+            } else if (view === 'profile' || view === 'applicants') {
+                document.getElementById(`${view}-view`).style.display = 'block';
                 mainNav.style.display = 'none';
-                profileNav.style.display = 'flex';
+                secondaryNav.style.display = 'flex';
             } else {
                 document.getElementById(`${view}-view`).style.display = 'block';
                 mainNav.style.display = 'flex';
-                profileNav.style.display = 'none';
+                secondaryNav.style.display = 'none';
             }
         }
 
-        // --- Authentication ---
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const userDocRef = doc(db, `artifacts/${appId}/users/${currentUser.uid}`);
-                const userDoc = await getDoc(userDocRef);
+        // --- App Initialization and Auth Handling ---
+        async function mainAppLogic(user) {
+            currentUser = user;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${currentUser.uid}`);
+            const userDoc = await getDoc(userDocRef);
 
-                if (userDoc.exists()) {
-                    userData = userDoc.data();
-                    userRole = userData.role;
-                    userRoleDisplay.textContent = userRole;
-                    if (userRole === 'seeker') showView('seeker');
-                    else if (userRole === 'employer') showView('employer');
-                    else if (userRole === 'admin') showView('admin');
-                    
-                    if (userRole !== 'admin') {
-                        listenForJobs();
-                        if (userRole === 'employer') fetchEmployerJobs();
-                    } else {
-                        listenForReferrals();
-                    }
-
+            if (userDoc.exists()) {
+                userData = userDoc.data();
+                userRole = userData.role;
+                userRoleDisplay.textContent = userRole;
+                
+                if (userRole === 'seeker') showView('seeker');
+                else if (userRole === 'employer') showView('employer');
+                else if (userRole === 'admin') showView('admin');
+                
+                if (userRole !== 'admin') {
+                    listenForJobs();
+                    if (userRole === 'employer') fetchEmployerJobs();
                 } else {
-                     if (currentUser.uid === ADMIN_UID) {
-                        await setDoc(userDocRef, { role: 'admin' });
-                     } else {
-                        showView('roleSelection');
-                     }
+                    listenForReferrals();
                 }
             } else {
-                currentUser = null;
-                userRole = null;
-                userData = {};
-                [jobsUnsubscribe, employerJobsUnsubscribe, referralsUnsubscribe].forEach(unsub => unsub && unsub());
-                showView('roleSelection');
+                if (currentUser.uid === ADMIN_UID) {
+                    await setDoc(userDocRef, { role: 'admin' });
+                    mainAppLogic(user); // Re-run logic
+                } else {
+                    showView('roleSelection');
+                }
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            showView('loading');
+            try {
+                if (user) {
+                    await mainAppLogic(user);
+                } else {
+                    // This block runs on first visit or after logout
+                    [jobsUnsubscribe, employerJobsUnsubscribe, referralsUnsubscribe].forEach(unsub => unsub && unsub());
+                    await signInAnonymously(auth);
+                    // onAuthStateChanged will be triggered again by signInAnonymously,
+                    // so we don't need to do anything else here.
+                }
+            } catch (error) {
+                console.error("Critical error in auth state handler:", error);
+                showView('roleSelection'); // Fallback on any critical error
             }
         });
 
-        async function handleRoleSelection(role) {
+        async function handleRoleSelection(role, initialSearch = '') {
             showView('loading');
             try {
                 if (!auth.currentUser) {
-                    await signInAnonymously(auth);
+                    console.error("No user found during role selection. This should not happen.");
+                    showView('roleSelection');
+                    return;
                 }
                 const user = auth.currentUser;
                 const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}`);
                 await setDoc(userDocRef, { role: role });
+                
+                // After setting the role, re-run the main app logic to load the correct view.
+                await mainAppLogic(user);
+
+                if (role === 'seeker' && initialSearch) {
+                    setTimeout(() => {
+                        searchInput.value = initialSearch;
+                        searchInput.dispatchEvent(new Event('input'));
+                    }, 100);
+                }
+
             } catch (error) {
                 console.error("Error during role selection:", error);
                 showView('roleSelection');
@@ -367,7 +521,7 @@
         selectEmployerButton.addEventListener('click', () => handleRoleSelection('employer'));
         selectReferrerButton.addEventListener('click', () => openReferralModal());
         logoutButton.addEventListener('click', () => signOut(auth));
-        logoutButtonProfile.addEventListener('click', () => signOut(auth));
+        logoutButtonSecondary.addEventListener('click', () => signOut(auth));
         homeButton.addEventListener('click', () => {
              if (currentUser && userRole) {
                 showView(userRole);
@@ -376,11 +530,18 @@
              }
         });
         profileButton.addEventListener('click', () => {
-            showView('profile');
+            showView('profile', userRole);
             renderProfileForm();
         });
-        backButton.addEventListener('click', () => showView(userRole));
+        backButton.addEventListener('click', () => showView(previousView || userRole));
         referJobButton.addEventListener('click', () => openReferralModal());
+        
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                handleRoleSelection('seeker', category);
+            });
+        });
 
         // --- Profile Functions ---
         function renderProfileForm() {
@@ -389,10 +550,11 @@
             if (userRole === 'seeker') {
                 formHTML = `
                     <form id="profile-form" class="space-y-4">
+                        <div><label for="profile-name" class="block text-sm font-medium text-slate-600">Your Name</label><input type="text" id="profile-name" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="e.g., Priya Kumar" value="${userData.name || ''}"></div>
                         <div><label for="profile-bio" class="block text-sm font-medium text-slate-600">Short Bio</label><textarea id="profile-bio" rows="3" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="Tell us a little about yourself...">${userData.bio || ''}</textarea></div>
                         <div><label for="profile-skills" class="block text-sm font-medium text-slate-600">Key Skills</label><input type="text" id="profile-skills" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="e.g., Customer Service, Data Entry" value="${(userData.skills || []).join(', ')}"></div>
                         <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
+                             <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
                             <button type="submit" class="px-6 py-2 rounded-lg font-semibold cta-button">Save Profile</button>
                         </div>
                     </form>
@@ -403,7 +565,7 @@
                         <div><label for="profile-company-desc" class="block text-sm font-medium text-slate-600">Company Description</label><textarea id="profile-company-desc" rows="3" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="Describe your business...">${userData.companyDescription || ''}</textarea></div>
                         <div><label for="profile-company-logo" class="block text-sm font-medium text-slate-600">Company Logo URL</label><input type="url" id="profile-company-logo" class="mt-1 w-full px-4 py-2 rounded-lg focus:ring-2 input-field" placeholder="https://example.com/logo.png" value="${userData.companyLogoUrl || ''}"></div>
                         <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
+                             <button type="button" id="profile-cancel-button" class="px-6 py-2 rounded-lg font-semibold secondary-button">Cancel</button>
                             <button type="submit" class="px-6 py-2 rounded-lg font-semibold cta-button">Save Profile</button>
                         </div>
                     </form>
@@ -422,6 +584,7 @@
             if (userRole === 'seeker') {
                 const skills = document.getElementById('profile-skills').value.split(',').map(s => s.trim()).filter(s => s);
                 profileData = {
+                    name: document.getElementById('profile-name').value,
                     bio: document.getElementById('profile-bio').value,
                     skills: skills
                 };
@@ -434,15 +597,17 @@
 
             await updateDoc(userDocRef, profileData);
             alert('Profile saved successfully!');
-            userData = {...userData, ...profileData}; // Update local user data
-            showView(userRole); // Go back to the main view
+            userData = {...userData, ...profileData};
+            showView(userRole);
         }
 
-        // --- Job Functions ---
+        // --- Job & Applicant Functions ---
         function createJobCard(job, isEmployerView = false) {
             const card = document.createElement('div');
             card.className = 'job-card p-6 rounded-lg flex flex-col border-t-4 border-amber-400';
             const applicationsCount = job.applications ? job.applications.length : 0;
+            const hasApplied = job.applications && job.applications.includes(currentUser?.uid);
+
             card.innerHTML = `
                 <div class="flex-grow">
                     <h3 class="text-xl font-bold text-slate-800">${job.title}</h3>
@@ -454,26 +619,71 @@
                     </div>
                     <p class="text-slate-500 my-4">${job.description}</p>
                 </div>
-                ${isEmployerView ? `<div class="text-right font-bold text-amber-600 mt-4">${applicationsCount} Application(s)</div>` : `<button data-job-id="${job.id}" class="apply-button w-full mt-4 font-bold py-2 cta-button">Apply Now</button>`}`;
-            if (!isEmployerView) {
-                card.querySelector('.apply-button').addEventListener('click', async (e) => {
-                    e.target.disabled = true;
-                    e.target.textContent = 'Applying...';
-                    await applyForJob(job.id);
-                    e.target.textContent = 'Applied!';
+                ${isEmployerView 
+                    ? `<button data-job-id="${job.id}" data-job-title="${job.title}" class="view-applicants-button w-full mt-4 font-bold py-2 cta-button">${applicationsCount} Application(s)</button>` 
+                    : `<button data-job-id="${job.id}" class="apply-button w-full mt-4 font-bold py-2 cta-button" ${hasApplied ? 'disabled' : ''}>${hasApplied ? 'Applied' : 'Apply Now'}</button>`
+                }`;
+
+            if (isEmployerView) {
+                card.querySelector('.view-applicants-button').addEventListener('click', (e) => {
+                    const jobId = e.target.dataset.jobId;
+                    const jobTitle = e.target.dataset.jobTitle;
+                    const job = allJobs.find(j => j.id === jobId);
+                    showView('applicants', 'employer');
+                    displayApplicants(job.applications || [], jobTitle);
                 });
+            } else {
+                if (!hasApplied) {
+                    card.querySelector('.apply-button').addEventListener('click', async (e) => {
+                        e.target.disabled = true;
+                        e.target.textContent = 'Applying...';
+                        await applyForJob(job.id);
+                        e.target.textContent = 'Applied!';
+                    });
+                }
             }
             return card;
         }
 
-        function displayJobs(jobs, container, noMessageId) {
+        async function displayApplicants(applicantIds, jobTitle) {
+            applicantsTitle.textContent = `Applicants for "${jobTitle}"`;
+            applicantsContainer.innerHTML = '';
+            document.getElementById('no-applicants-message').style.display = applicantIds.length === 0 ? 'block' : 'none';
+
+            if (applicantIds.length > 0) {
+                for (const userId of applicantIds) {
+                    const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        const applicantData = userDoc.data();
+                        const card = document.createElement('div');
+                        card.className = 'applicant-card p-6';
+                        card.innerHTML = `
+                            <h4 class="text-lg font-bold text-slate-800">${applicantData.name || 'Anonymous User'}</h4>
+                            <p class="text-slate-600 mt-2">${applicantData.bio || 'No bio provided.'}</p>
+                            <div class="mt-4">
+                                ${ (applicantData.skills || []).map(skill => `<span class="inline-block bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${skill}</span>`).join('') }
+                            </div>
+                        `;
+                        applicantsContainer.appendChild(card);
+                    }
+                }
+            }
+        }
+
+        function displayJobs(jobs, container, isEmployerView = false) {
             container.innerHTML = '';
-            const noMsg = document.getElementById(noMessageId);
+            const noMsgId = isEmployerView ? 'no-employer-jobs-message' : (container === jobListingsContainer ? 'no-jobs-message' : 'no-search-results-message');
+            const noMsg = document.getElementById(noMsgId);
+
             if (jobs.length === 0) {
-                noMsg.style.display = 'block';
+                if (noMsg) noMsg.style.display = 'block';
+                 if (container === jobListingsContainer && searchInput.value) {
+                    document.getElementById('no-jobs-message').style.display = 'none';
+                }
             } else {
-                noMsg.style.display = 'none';
-                jobs.forEach(job => container.appendChild(createJobCard(job, noMessageId === 'no-employer-jobs-message')));
+                if (noMsg) noMsg.style.display = 'none';
+                jobs.forEach(job => container.appendChild(createJobCard(job, isEmployerView)));
             }
         }
 
@@ -482,7 +692,13 @@
             const q = query(collection(db, `artifacts/${appId}/public/data/jobs`));
             jobsUnsubscribe = onSnapshot(q, (snapshot) => {
                 allJobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                displayJobs(allJobs, jobListingsContainer, 'no-jobs-message');
+                displayJobs(allJobs, jobListingsContainer, false);
+                if (userRole === 'employer') fetchEmployerJobs();
+                if (snapshot.empty) {
+                    seedDatabase();
+                }
+            }, (error) => {
+                console.error("Error listening for jobs:", error);
             });
         }
         
@@ -493,21 +709,25 @@
                 (job.companyName && job.companyName.toLowerCase().includes(searchTerm)) ||
                 (job.location && job.location.toLowerCase().includes(searchTerm))
             );
-            displayJobs(filteredJobs, jobListingsContainer, 'no-search-results-message');
+            displayJobs(filteredJobs, jobListingsContainer, false);
         });
 
         function fetchEmployerJobs() {
             if (!currentUser) return;
-            if (employerJobsUnsubscribe) employerJobsUnsubscribe();
-            const q = query(collection(db, `artifacts/${appId}/public/data/jobs`), where("postedBy", "==", currentUser.uid));
-            employerJobsUnsubscribe = onSnapshot(q, (snapshot) => {
-                const employerJobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                displayJobs(employerJobs, employerJobsContainer, 'no-employer-jobs-message');
-            });
+            const employerJobs = allJobs.filter(job => job.postedBy === currentUser.uid);
+            displayJobs(employerJobs, employerJobsContainer, true);
         }
 
         async function applyForJob(jobId) {
             if (!currentUser) return;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${currentUser.uid}`);
+            const userDoc = await getDoc(userDocRef);
+            if (!userDoc.data().name) {
+                alert("Please complete your profile before applying for jobs.");
+                showView('profile', 'seeker');
+                renderProfileForm();
+                return;
+            }
             const jobDocRef = doc(db, `artifacts/${appId}/public/data/jobs/${jobId}`);
             await updateDoc(jobDocRef, { applications: arrayUnion(currentUser.uid) });
         }
@@ -620,6 +840,34 @@
             card.querySelector('.confirm-button').addEventListener('click', () => openJobPostModal(referral));
             return card;
         }
+
+        // --- Database Seeding ---
+        async function seedDatabase() {
+            if (!auth.currentUser) {
+                console.log("User not signed in yet, skipping seed check.");
+                return;
+            }
+            const jobsRef = collection(db, `artifacts/${appId}/public/data/jobs`);
+            const q = query(jobsRef);
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) {
+                console.log("Database is empty. Seeding with sample jobs...");
+                const batch = writeBatch(db);
+                const sampleJobs = [
+                    { title: "Barista for Weekend Shifts", companyName: "Koramangala Coffee House", location: "Koramangala, Bengaluru", pay: "₹250/hour", hours: "Sat-Sun, 8am-2pm", description: "Looking for an experienced barista to handle our busy weekend rush. Must be skilled in latte art and customer service.", postedBy: "sample_employer_1", createdAt: new Date(), applications: [] },
+                    { title: "Part-Time Retail Assistant", companyName: "Indiranagar Boutique", location: "Indiranagar, Bengaluru", pay: "₹200/hour", hours: "3 days/week, 4pm-9pm", description: "Assist customers, manage inventory, and help with store upkeep. Great for students.", postedBy: "sample_employer_2", createdAt: new Date(), applications: [] },
+                    { title: "Event Staff for Tech Conference", companyName: "Bengaluru Expo Center", location: "Whitefield, Bengaluru", pay: "₹1500/day", hours: "Full day, Oct 5-6", description: "Help with registration, guide attendees, and provide general support for a major tech conference.", postedBy: "sample_employer_3", createdAt: new Date(), applications: [] },
+                    { title: "Data Entry Operator (Remote)", companyName: "DataFlow Solutions", location: "Remote", pay: "₹15,000/month", hours: "Flexible 20 hours/week", description: "Part-time remote data entry role. Requires attention to detail and basic computer skills.", postedBy: "sample_employer_4", createdAt: new Date(), applications: [] }
+                ];
+                sampleJobs.forEach(job => {
+                    const newJobRef = doc(jobsRef);
+                    batch.set(newJobRef, job);
+                });
+                await batch.commit();
+                console.log("Seeding complete.");
+            }
+        }
+
 
         // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
